@@ -26,6 +26,12 @@ export class UserServiceService {
     return this.http.get<User[]>(this.baseURL);
   }
 
-  //checa se cadastro é vazio
+  serviceGetAccess(access, id : string) : Observable<any> {
+    let body = new HttpParams();
+    body = body.set("login", access.login);
+    body = body.set("password", access.password);
+    return this.http.post(this.baseURL + id, body, {observe: "response"});
+  }
+  
 
 }

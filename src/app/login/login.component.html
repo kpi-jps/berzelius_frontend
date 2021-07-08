@@ -23,7 +23,7 @@
             </li>
         </ul>
     </div>
-    <form id="form-access" *ngIf="access" [formGroup]="formAccess">
+    <form id="form-access" *ngIf="access" [formGroup]="formAccess" (submit)="onSubmitAccess()">
         <div class="field">
           <label class="label">Login</label>
           <div class="control">
@@ -34,7 +34,7 @@
         <div class="field">
           <label class="label">Senha</label>
           <div class="control">
-            <input class="input" formControlName="passwdAccess" [placeholder]="passwdPlaceHolder">
+            <input class="input" type="password" formControlName="passwdAccess" [placeholder]="passwdPlaceHolder">
           </div>
         </div>
       

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserServiceService } from '../user-service.service';
+import { Location } from "@angular/common";
+import { ActivatedRoute, Router } from "@angular/router";
 import { User } from '../user';
 
 @Component({
@@ -10,7 +12,12 @@ import { User } from '../user';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private userService: UserServiceService) { }
+  constructor(
+    private userService: UserServiceService,
+    private routes : Router,
+    private location : Location
+
+    ) { }
   //variáveis
   users : User[] = []; //armazena a lista de usuários cadastrados no sistema
   access : boolean = true; //controla a visualização do formulário de acesso
@@ -58,30 +65,62 @@ export class LoginComponent implements OnInit {
   }
   
   onSubmitAccess() : void {
+    let msg = '';
     if(this.formAccess.get('loginAccess').valid && this.formAccess.get('passwdAccess').valid) {
-      let userId; //id do usuário na banco de dados de usuários
-      let check = false; //variável que checa se senha usuário existe no banco de dados (considera inicialmente que usuário não existe - false)
+      let userId : string; //id do usuário na banco de dados de usuários
+      let check : boolean = false; //variável que checa se senha usuário existe no banco de dados (considera inicialmente que usuário não existe - false)
       let access = { //variável de acesso
         login:this.formAccess.get('loginAccess').value,
         password:this.formAccess.get('passwdAccess').value
       }
       this.userService.serviceGetUsers().subscribe(response => {
         this.users = response;
-        let i = 0;
-        while (!check || i < this.users.length) {
-          if(this.users[i].login == access.login) {
-            check = true;
-          }
-          i++;
-        }
-        if(check) { //se login encontrado testa a senha
-
+        if (response.length == 0) {
+          msg = 'Não há usuários cadastrados!'
+          this.triggerAlert(msg, "error"); //dispara alerta
+          setTimeout(()=>{this.closeAlert()}, 3000); //fecha automaticamente o alerta depois de 3s
         } else {
+          let i = 0;
+          while(i < this.users.length) {
+            if(this.users[i].login == access.login ) {
+              check = true;
+              userId = this.users[i]._id;
+            }
+            i++;
+          }
+          if(check) { //se login encontrado testa a senha
+            this.userService.serviceGetAccess(access, userId).subscribe(res => {
+              //console.log(res);
+              if(res.body.access && res.body.adm) {
+                //console.log("acesso concedido - usuário adm");
+                this.routes.navigate(["/adm-dashboard/" + userId]);
 
-        }
+              } else if (res.body.access && !res.body.adm) {
+                //console.log("acesso concedido - usuário não adm");
+                this.routes.navigate(["/user-dashboard/" + userId]);
+              } else {
+                msg = 'Acesso negado! Senha incorreta!'
+                this.triggerAlert(msg, "error"); //dispara alerta
+                setTimeout(()=>{this.closeAlert()}, 3000); //fecha automaticamente o alerta depois de 3s
+              }
+            });
+          } else {
+            msg = 'Usuário não encontrado!'
+            this.triggerAlert(msg, "error"); //dispara alerta
+            setTimeout(()=>{this.closeAlert()}, 3000); //fecha automaticamente o alerta depois de 3s
+          }
+        }        
       });
     } else {
-
+      msg = '';
+      if(!this.formAccess.get('loginAccess').valid){
+        msg += 'Campo "login" não preenchido! ';
+      } 
+      if(!this.formAccess.get('passwdAccess').valid) {
+        msg += 'Campo "senha" não preenchido ou contendo menos de 8 caracteres!';
+      }
+      this.triggerAlert(msg, "error"); //dispara alerta
+      setTimeout(()=>{this.closeAlert()}, 3000); //fecha automaticamente o alerta depois de 3s
     }
     
   }
@@ -110,7 +149,7 @@ export class LoginComponent implements OnInit {
           //chacando se login já existe
           let i = 0;
           let check = false; //assume que login inicialmente não existe
-          while (!check || i < this.users.length) {
+          while (i < this.users.length) {
             if(this.users[i].login == user.login) {
               check = true; //se existe
             }
@@ -129,7 +168,7 @@ export class LoginComponent implements OnInit {
     } else { //se formulário não é válido
       msg = '';
       if(!this.formRegister.get('nameRegister').valid){
-        msg += 'Campo "nome" nome não preenchido! ';
+        msg += 'Campo "nome" não preenchido! ';
       } 
       if(!this.formRegister.get('emailRegister').valid) {
         msg += 'Campo "email" não preenchido ou com formato inválido! ';
@@ -171,7 +210,7 @@ export class LoginComponent implements OnInit {
     let msg;
     this.userService.serviceRegisterUser(user).subscribe(res => {
       if(res.ok == true) {
-        msg = 'Contato salvo com sucesso!';
+        msg = 'Usuário registrado com sucesso!';
         this.triggerAlert(msg, "success"); //dispara alerta
         setTimeout(()=>{this.closeAlert()}, 3000); //fecha automaticamente o alerta depois de 3s
         this.initFormRegister();//inicia novamente o formulário de registro
