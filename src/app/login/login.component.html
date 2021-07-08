@@ -1,3 +1,10 @@
+<div id="alert-container" *ngIf="alert">
+  <div class="notification" [class.is-success] = "success == true" [class.is-danger] = "error == true" id="alert">
+    <button class="delete" (click) = "closeAlert()"></button>
+    {{msg}}
+  </div>
+</div>
+
 <div class="box" id="login-box">
     <div id="header">
         <div id="logo"><img src="../assets/logo.svg" alt="logo" width="70" height="70"> </div>
@@ -8,10 +15,10 @@
     </div>
     <div class="tabs is-centered">
         <ul>
-            <li [class.is-active] = "access == true" (click) = "activeAccess()">
+            <li [class.is-active] = "access == true" (click)="activeAccess()">
                 <a> Acesso </a>
             </li>
-            <li [class.is-active] = "register == true" (click) = "activeRegister()">
+            <li [class.is-active] = "register == true" (click)="activeRegister()">
                 <a> Cadastro </a>
             </li>
         </ul>
@@ -34,7 +41,7 @@
         <button class="button is-info">Acessar</button>
     </form>
 
-    <form id="form-register" *ngIf="register" [formGroup]="formRegister">
+    <form id="form-register" *ngIf="register" [formGroup]="formRegister" (submit) = onSubmitRegister()>
         <div class="field">
             <label class="label">Nome</label>
             <div class="control">
