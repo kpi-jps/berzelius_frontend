@@ -58,8 +58,27 @@
     </div>
     <button class="modal-close is-large" aria-label="close" (click) = "cancelEdit()"></button>
 </div>
+<div class="modal is-active" [class.is-active] = "order == true" id="order">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <div class="box">
+            <div id="title" class="content"><h4>Pedindo reagente</h4></div>
+                <form id="form-edit"  [formGroup]="orderForm" (submit)="onSubmitOrder()">
+                    <div class="field">
+                    <label class="label">Quantidade</label>
+                        <div class="control">
+                            <input class="input" type="number" formControlName="quantity" [placeholder]="quantityPlaceHolder">
+                        </div>
+                    </div>
+                    <button class="button is-info">Cadastrar</button>
+                </form>
+            </div>    
+    </div>
+    <button class="modal-close is-large" aria-label="close" (click) = "cancelOrder()"></button>
+</div>
 <div class="content">
     <h4 id="title">Lista de reagentes cadastrados</h4>
+    <div class="has-background-info-light products" *ngIf="empty"> Não há outros usuários cadastrados!</div>
     <div class="has-background-info-light products" *ngFor="let product of products">
         <ul>
             <li><b>Reagente: </b> {{product.name}}</li>
@@ -67,7 +86,12 @@
             <li><b>Quantidade: </b> {{product.quantity}} {{product.unity}}</li>
             <li><b>Observações:</b> {{product.obs}}</li>
         </ul>
-        <button class="button is-small is-info" (click) = "initEdit(product)">Editar</button> 
-        <button class="button is-small is-danger" (click) = "initDel(product)">Deletar</button>
+        <div id="user-control" *ngIf="!activeUser.adm">
+            <button class="button is-small is-info" (click) = "initOrder(product)"> Fazer pedido </button> 
+        </div>
+        <div id="adm-control" *ngIf="activeUser.adm">
+            <button class="button is-small is-info" (click) = "initEdit(product)">Editar</button> 
+            <button class="button is-small is-danger" (click) = "initDel(product)">Deletar</button>
+        </div>
     </div>
 </div>

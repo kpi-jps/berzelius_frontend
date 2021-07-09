@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../user';
 import { UserServiceService } from '../user-service.service';
-import { Location } from "@angular/common";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-adm-dashboard',
@@ -23,9 +22,7 @@ export class AdmDashboardComponent implements OnInit {
   msg : string; //mensagem apresentada por alertas
   constructor(
     private userService: UserServiceService,
-    private routes : Router,
     private route : ActivatedRoute,
-    private location : Location
 
     ) { }
 
@@ -67,6 +64,22 @@ export class AdmDashboardComponent implements OnInit {
        setTimeout(()=>{this.closeAlert()}, 3000); //fecha automaticamente o alerta depois de 3s
     }
 
+    onDelUser(output) {
+      if(output.del) {
+        this.userList = false; 
+       }
+       this.triggerAlert(output.msg, output.type);
+       setTimeout(()=>{this.closeAlert()}, 3000); //fecha automaticamente o alerta depois de 3s
+    }
+
+    onEditUser(output) {
+      if(output.update) {
+        this.userList = false; 
+       }
+       this.triggerAlert(output.msg, output.type);
+       setTimeout(()=>{this.closeAlert()}, 3000); //fecha automaticamente o alerta depois de 3s
+    }
+
     onProductRegister(output) {
      if(output.closeForm) {
       this.productRegister = false;
@@ -80,7 +93,7 @@ export class AdmDashboardComponent implements OnInit {
       let id = this.route.snapshot.paramMap.get("id"); //retorna o id da rota
       this.userService.serviceGetUser(id).subscribe(response => {
         this.user = response;
-        //console.log(this.user);
+        console.log(this.user);
         this.userInfo = true;
       }) 
     }

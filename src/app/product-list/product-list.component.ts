@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProductServiceService } from '../product-service.service';
 import { EventEmitter, Output } from '@angular/core';
+import { User } from '../user';
 
 
 import { Product } from '../product';
@@ -12,7 +13,7 @@ import { Product } from '../product';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
-
+  @Input() activeUser: User; //recebe informações do usuário logado e ativo
   @Output() onEditProduct = new EventEmitter<Object>();
   @Output() onDelProduct = new EventEmitter<Object>();
   constructor(private productService: ProductServiceService) { }
@@ -20,22 +21,31 @@ export class ProductListComponent implements OnInit {
   confirm : boolean = false; //controla a vizualizaçãao do modal de confirm
   confirmMsg : string; //mensagem do confirm
   edit : boolean = false //controla a visualização do modal com o formulário de edição
+  order : boolean = false; //controla  a visualização do formulário de pedidos
   productForm : FormGroup //controla o formulário de cadastramento de produtos
+  orderForm : FormGroup //controla o formulário de pedido de produtos
   namePlaceHolder : string = 'Nome';
   descriptionPlaceHolder : string = 'Descrição';
   unityPlaceHolder : string = 'Unidade (kg, L, etc)';
   quantityPlaceHolder : string = 'Quantidade';
   obsPlaceHolder : string = 'Observações em geral';
   productId : string; //armazena o id do produto para os processos de deleção e edição
+  empty : boolean = false; //indica se a lista de produtos está vazia
   
   //inicia o formulário de edição
-  private initForm() : void {
+  private initProductForm() : void {
     this.productForm = new FormGroup({
       name : new FormControl(null, [Validators.required]),
       description : new FormControl(null, [Validators.required]),
       unity : new FormControl(null, [Validators.required]),
       quantity: new FormControl(0, [Validators.required, Validators.min(0)]),
       obs: new FormControl(null)
+    });
+  }
+
+  private initOrderForm() : void {
+    this.orderForm = new FormGroup({
+      quantity: new FormControl(0, [Validators.required, Validators.min(0)]),
     });
   }
   
@@ -47,6 +57,12 @@ export class ProductListComponent implements OnInit {
     this.productForm.get('quantity').setValue(product.quantity);
     this.productForm.get('obs').setValue(product.obs);
     this.productId = product._id;
+    //console.log(product);
+  }
+
+  initOrder(product : Product) {
+    this.productId = product._id;
+    this.order = true;
     console.log(product);
   }
 
@@ -102,6 +118,7 @@ export class ProductListComponent implements OnInit {
     this.confirm = false;
   }
 
+
   initDel(product : Product) {
     this.confirm = true;
     this.productId = product._id;
@@ -124,14 +141,28 @@ export class ProductListComponent implements OnInit {
 
   getProducts() {
     this.productService.serviceGetProducts().subscribe(response => {
-      this.products = response;
-      //console.log(response);
+      if (response.length == 0) {
+        this.empty = true;
+      } else {
+        this.products = response;
+        //console.log(response);
+      }
+      
     });
   }
   
+  onSubmitOrder() {
+
+  }
+
+  cancelOrder() {
+    this.order = false;
+  }
+
   ngOnInit(): void {
     this.getProducts();
-    this.initForm();
+    this.initProductForm();
+    this.initOrderForm();
   }
 
  

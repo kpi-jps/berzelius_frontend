@@ -3,7 +3,7 @@
       <button class="delete" (click) = "closeAlert()"></button>
       {{msg}}
     </div>
-  </div>
+</div>
 <header class="columns">
     <div class="column is-1" id="logo">
         <img src="../assets/logo.svg" alt="logo" width="50" height="50">
@@ -23,11 +23,11 @@
 </div>
 <main>
     <div id="user-info" class="content" *ngIf="userInfo">
-        <p> <b>Usuário:</b> {{user.name}} | <b>Status:</b> Administrador</p>
+        <p> <b>Usuário:</b> {{user.name}} | <b>Status:</b> {{user.adm | userStatus}}  </p>
     </div>
     <app-product-form *ngIf="productRegister" (onCreateProduct)="onProductRegister($event)"></app-product-form>
-    <app-product-list *ngIf="productsList" (onEditProduct) = "onProductEdit($event)" (onDelProduct) = "onDelProduct($event)"></app-product-list>
-    <app-user-list *ngIf="userList" [activeUser] = "user"></app-user-list>
+    <app-product-list *ngIf="productsList" [activeUser] = "user" (onEditProduct) = "onProductEdit($event)" (onDelProduct) = "onDelProduct($event)"></app-product-list>
+    <app-user-list *ngIf="userList" [activeUser] = "user" (onEditUser) = "onEditUser($event)"(onDelUser) = "onDelUser($event)"></app-user-list>
     <app-order-list *ngIf="orderList"></app-order-list>
 </main>
 <footer class="has-background-info-light">

@@ -26,6 +26,7 @@ export class UserServiceService {
     return this.http.get<User[]>(this.baseURL);
   }
 
+  //checa se usuário tem ou não acesso
   serviceGetAccess(access, id : string) : Observable<any> {
     let body = new HttpParams();
     body = body.set("login", access.login);
@@ -37,4 +38,21 @@ export class UserServiceService {
   serviceGetUser(id : string) : Observable<any> {
     return this.http.get<any>(this.baseURL + id);
   }
+
+  //deleta um usuário específico no banco de dados
+  serviceDeleteUser(id : string) : Observable<any>{
+    return this.http.delete(this.baseURL + id, {observe: "response"});
+  }
+
+  //atualiza um produto específico no banco de dados
+  serviceUpdateUser(user, id : string) : Observable<any>{
+    let body = new HttpParams();
+    body = body.set("name", user.name);
+    body = body.set("email", user.email);
+    body = body.set("login", user.login);
+    body = body.set("password", user.password);
+    body = body.set("adm", user.adm);
+    return this.http.put(this.baseURL + id, body, {observe: "response"});
+  }
+
 }

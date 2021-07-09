@@ -8,7 +8,6 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 import { AdmDashboardComponent } from './adm-dashboard/adm-dashboard.component';
-import { OrderFormComponent } from './order-form/order-form.component';
 import { ProductFormComponent } from './product-form/product-form.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { UserListComponent } from './user-list/user-list.component';
@@ -22,7 +21,6 @@ import { SetTimerPipe } from './set-timer.pipe';
     LoginComponent,
     UserDashboardComponent,
     AdmDashboardComponent,
-    OrderFormComponent,
     ProductFormComponent,
     ProductListComponent,
     UserListComponent,
