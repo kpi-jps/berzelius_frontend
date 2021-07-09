@@ -12,6 +12,9 @@ import { OrderFormComponent } from './order-form/order-form.component';
 import { ProductFormComponent } from './product-form/product-form.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { UserListComponent } from './user-list/user-list.component';
+import { OrderListComponent } from './order-list/order-list.component';
+import { UserStatusPipe } from './user-status.pipe';
+import { SetTimerPipe } from './set-timer.pipe';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import { UserListComponent } from './user-list/user-list.component';
     OrderFormComponent,
     ProductFormComponent,
     ProductListComponent,
-    UserListComponent
+    UserListComponent,
+    OrderListComponent,
+    UserStatusPipe,
+    SetTimerPipe
   ],
   imports: [
     BrowserModule,

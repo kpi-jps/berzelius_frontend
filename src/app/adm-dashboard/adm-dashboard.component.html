@@ -18,7 +18,7 @@
         <li class="" (click)="initListProducts()"> <a>Listar reagentes</a></li>
         <li class="" (click)="initProductRegister()"> <a>Cadastrar reagentes</a></li>
         <li class=""> <a>Listar pedidos</a></li>
-        <li class=""> <a>Listar usuários</a></li>
+        <li class="" (click)="initListUsers()"> <a>Listar usuários</a></li>
     </ul>
 </div>
 <main>
@@ -27,6 +27,8 @@
     </div>
     <app-product-form *ngIf="productRegister" (onCreateProduct)="onProductRegister($event)"></app-product-form>
     <app-product-list *ngIf="productsList" (onEditProduct) = "onProductEdit($event)" (onDelProduct) = "onDelProduct($event)"></app-product-list>
+    <app-user-list *ngIf="userList" [activeUser] = "user"></app-user-list>
+    <app-order-list *ngIf="orderList"></app-order-list>
 </main>
 <footer class="has-background-info-light">
     <b>Berzelius</b> - Desenvolvido por João Pedro

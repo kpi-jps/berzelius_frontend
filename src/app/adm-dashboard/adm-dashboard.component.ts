@@ -44,6 +44,13 @@ export class AdmDashboardComponent implements OnInit {
       this.userList = false;
       this.orderList = false;
     }
+    //inicia o processo de listagem de usuários
+    initListUsers() {
+      this.productRegister = false;
+      this.productsList = false;
+      this.userList = true;
+      this.orderList = false;
+    }
     onProductEdit(output) {
       if(output.update) {
         this.productsList = false; 
