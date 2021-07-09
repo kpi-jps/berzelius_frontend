@@ -15,20 +15,20 @@
 </header>
 <div class="has-background-info-light tabs">
     <ul>
-        <li class="" (click)="initListProducts()"> <a>Listar reagentes</a></li>
-        <li class="" (click)="initProductRegister()"> <a>Cadastrar reagentes</a></li>
-        <li class=""> <a>Listar pedidos</a></li>
-        <li class="" (click)="initListUsers()"> <a>Listar usuários</a></li>
+        <li (click)="initListProducts()"> <a>Listar reagentes</a></li>
+        <li (click)="initProductRegister()"> <a>Cadastrar reagentes</a></li>
+        <li (click)= "initListOrders()"> <a>Listar pedidos</a></li>
+        <li (click)="initListUsers()"> <a>Listar usuários</a></li>
     </ul>
 </div>
 <main>
     <div id="user-info" class="content" *ngIf="userInfo">
-        <p> <b>Usuário:</b> {{user.name}} | <b>Status:</b> {{user.adm | userStatus}}  </p>
+        <p> <b>Usuário:</b> {{user.name}} | <b>Status:</b> {{user.adm | userStatus}} </p>
     </div>
     <app-product-form *ngIf="productRegister" (onCreateProduct)="onProductRegister($event)"></app-product-form>
     <app-product-list *ngIf="productsList" [activeUser] = "user" (onEditProduct) = "onProductEdit($event)" (onDelProduct) = "onDelProduct($event)"></app-product-list>
     <app-user-list *ngIf="userList" [activeUser] = "user" (onEditUser) = "onEditUser($event)"(onDelUser) = "onDelUser($event)"></app-user-list>
-    <app-order-list *ngIf="orderList"></app-order-list>
+    <app-order-list *ngIf="orderList" [activeUser] = "user"></app-order-list>
 </main>
 <footer class="has-background-info-light">
     <b>Berzelius</b> - Desenvolvido por João Pedro

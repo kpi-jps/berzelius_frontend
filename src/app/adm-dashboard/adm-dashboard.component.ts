@@ -34,6 +34,13 @@ export class AdmDashboardComponent implements OnInit {
       this.orderList = false;
     }
 
+    initListOrders() {
+      this.productRegister = false;
+      this.productsList = false;
+      this.userList = false;
+      this.orderList = true;
+    }
+
     //inicia o processo de listagem de produtos
     initListProducts() {
       this.productRegister = false;

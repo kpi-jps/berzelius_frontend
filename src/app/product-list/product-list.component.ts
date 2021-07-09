@@ -1,10 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProductServiceService } from '../product-service.service';
+import { OrderServiceService } from '../order-service.service';
 import { EventEmitter, Output } from '@angular/core';
 import { User } from '../user';
-
-
 import { Product } from '../product';
 
 @Component({
@@ -16,7 +15,10 @@ export class ProductListComponent implements OnInit {
   @Input() activeUser: User; //recebe informações do usuário logado e ativo
   @Output() onEditProduct = new EventEmitter<Object>();
   @Output() onDelProduct = new EventEmitter<Object>();
-  constructor(private productService: ProductServiceService) { }
+  @Output() onOrderProduct = new EventEmitter<Object>();
+
+  constructor(private productService: ProductServiceService, private orderService: OrderServiceService) { }
+
   products : Product[] = [];//armazena os produtos recuperados do banco de dados
   confirm : boolean = false; //controla a vizualizaçãao do modal de confirm
   confirmMsg : string; //mensagem do confirm
@@ -24,6 +26,10 @@ export class ProductListComponent implements OnInit {
   order : boolean = false; //controla  a visualização do formulário de pedidos
   productForm : FormGroup //controla o formulário de cadastramento de produtos
   orderForm : FormGroup //controla o formulário de pedido de produtos
+  selectedProduct : Product;//armazena o produto selecionado para pedido
+  productName : String = '';
+  productQuantity : Number = 0;
+  productUnity : String = '';
   namePlaceHolder : string = 'Nome';
   descriptionPlaceHolder : string = 'Descrição';
   unityPlaceHolder : string = 'Unidade (kg, L, etc)';
@@ -45,7 +51,7 @@ export class ProductListComponent implements OnInit {
 
   private initOrderForm() : void {
     this.orderForm = new FormGroup({
-      quantity: new FormControl(0, [Validators.required, Validators.min(0)]),
+      quantity: new FormControl(0, [Validators.required]),
     });
   }
   
@@ -58,12 +64,6 @@ export class ProductListComponent implements OnInit {
     this.productForm.get('obs').setValue(product.obs);
     this.productId = product._id;
     //console.log(product);
-  }
-
-  initOrder(product : Product) {
-    this.productId = product._id;
-    this.order = true;
-    console.log(product);
   }
 
   onSubmitEdit() {
@@ -150,9 +150,52 @@ export class ProductListComponent implements OnInit {
       
     });
   }
+
+  initOrder(product : Product) {
+    this.productId = product._id;
+    this.selectedProduct = product;
+    this.productName = this.selectedProduct.name;
+    this.productQuantity = this.selectedProduct.quantity;
+    this.productUnity = this.selectedProduct.unity;
+    this.order = true;
+    //console.log(this.selectedProduct);
+  }
+
   
   onSubmitOrder() {
-
+    let msg = '';
+    if(this.orderForm.get('quantity').valid){
+      let order = {
+        userLogin: this.activeUser.login, //login do usuário   
+        productId: this.selectedProduct._id, // id do produto
+        name: this.selectedProduct.name,  //nome do produto
+        description: this.selectedProduct.description, //descrição do produto
+        unity: this.selectedProduct.unity, //unidade em que é medida a quantidade do produto   
+        quantity: this.orderForm.get('quantity').value,  //quantidade de produto pedida
+        status: 'Não processado' //status do pedido
+      }
+      if (order.quantity > this.selectedProduct.quantity) {
+        msg = 'A quantidade pedida não pode ser maior que a em estoque!';
+        this.onOrderProduct.emit({msg: msg, type: "error", order: false});
+      } else if(order.quantity == 0) {
+        msg = 'O valor pedido não pode ser igual a zero';
+        this.onOrderProduct.emit({msg: msg, type: "error", order: false});
+      } else {
+        this.orderService.serviceRegisterOrder(order).subscribe(res => {
+          if(res.ok == true) {
+            msg = 'Pedido registrado com sucesso!';
+            this.onOrderProduct.emit({msg: msg, type: "success", order: true});
+            
+          } else {
+            msg = 'Erro, ao fazer pedido!';
+            this.onOrderProduct.emit({msg: msg, type: "error", order: false});
+          }
+        });
+      }
+    } else {
+      msg = 'O campo "Quantidade do pedido" precisa ser preenchido!';
+      this.onOrderProduct.emit({msg: msg, type: "error", order: false});
+    }
   }
 
   cancelOrder() {

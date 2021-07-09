@@ -15,8 +15,8 @@
 </header>
 <div class="has-background-info-light tabs">
     <ul>
-        <li class="" (click)="initListProducts()"> <a>Listar reagentes</a></li>
-        <li class=""> <a>Listar pedidos</a></li>
+        <li (click)="initListProducts()"> <a>Listar reagentes</a></li>
+        <li (click)= "initListOrders()"> <a>Listar pedidos</a></li>
     </ul>
 </div>
 <main>
@@ -24,7 +24,7 @@
         <p> <b>Usuário:</b> {{user.name}} | <b>Status:</b> {{user.adm | userStatus}}  </p>
     </div>
     
-    <app-product-list *ngIf="productsList" [activeUser] = "user"></app-product-list>
+    <app-product-list *ngIf="productsList" [activeUser] = "user" (onOrderProduct) = "onOrderProduct($event)"></app-product-list>
     <app-order-list *ngIf="orderList" [activeUser] = "user"></app-order-list>
 </main>
 <footer class="has-background-info-light">

@@ -31,7 +31,12 @@ export class UserDashboardComponent implements OnInit {
       this.userInfo = true;
     }) 
   }
-  
+
+  //inicia o processo de listagem de pedidos
+  initListOrders() {
+    this.productsList = false;
+    this.orderList = true;
+  }
 
   //inicia o processo de listagem de produtos
   initListProducts() {
@@ -39,6 +44,35 @@ export class UserDashboardComponent implements OnInit {
     this.orderList = false;
   }
 
+  onOrderProduct(output) {
+    if(output.order) {
+      this.productsList = false; 
+     }
+     this.triggerAlert(output.msg, output.type);
+     setTimeout(()=>{this.closeAlert()}, 3000); //fecha automaticamente o alerta depois de 3s
+  }
+
+  //fecha o "popUp" de alerta
+  closeAlert() : void {
+    this.alert = false;
+    this.success = false;
+    this.error = false;
+    this.msg = '';
+  }
+  //apresenta um popUp de alerta, onde "msg" é a mensagem apresentada pelo mesmo
+  // e "type" é tipo de alerta, que pode receber o valor de "error" para erros e
+  //"success" para sucesso
+  triggerAlert(msg : string, type : string) : void {
+    this.msg = msg;
+    this.alert = true;
+    if(type == "error") {
+      this.error = true;
+      this.success = false;
+    } else if (type == "success") {
+      this.error = false;
+      this.success = true;
+    }
+  }  
 
   ngOnInit(): void {
     this.getUser();
