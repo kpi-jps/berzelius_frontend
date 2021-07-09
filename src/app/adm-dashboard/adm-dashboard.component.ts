@@ -94,7 +94,22 @@ export class AdmDashboardComponent implements OnInit {
      this.triggerAlert(output.msg, output.type);
      setTimeout(()=>{this.closeAlert()}, 3000); //fecha automaticamente o alerta depois de 3s
     }
-    
+
+    onDelOrder(output) {
+      if(output.del) {
+        this.orderList = false; 
+       }
+       this.triggerAlert(output.msg, output.type);
+       setTimeout(()=>{this.closeAlert()}, 3000); //fecha automaticamente o alerta depois de 3s
+    }
+
+    onProcessOrder(output) {
+      if(output.process) {
+        this.orderList = false; 
+       }
+       this.triggerAlert(output.msg, output.type);
+       setTimeout(()=>{this.closeAlert()}, 3000); //fecha automaticamente o alerta depois de 3s
+    }
 
     getUser() {
       let id = this.route.snapshot.paramMap.get("id"); //retorna o id da rota

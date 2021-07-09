@@ -45,4 +45,8 @@ export class ProductServiceService {
     return this.http.delete(this.baseURL + id, {observe: "response"});
   }
 
+  //obtem um produto específico registrado no banco de dados
+  serviceGetProduct(id : string) : Observable<any> {
+    return this.http.get<any>(this.baseURL + id);
+  }
 }
