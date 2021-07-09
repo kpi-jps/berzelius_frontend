@@ -32,6 +32,9 @@ export class UserServiceService {
     body = body.set("password", access.password);
     return this.http.post(this.baseURL + id, body, {observe: "response"});
   }
-  
-
+ 
+  //obtem um usuário específico registrado no banco de dados
+  serviceGetUser(id : string) : Observable<any> {
+    return this.http.get<any>(this.baseURL + id);
+  }
 }

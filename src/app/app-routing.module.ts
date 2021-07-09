@@ -4,6 +4,8 @@ import { LoginComponent } from './login/login.component';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 import { AdmDashboardComponent } from './adm-dashboard/adm-dashboard.component';
 
+
+
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'user-dashboard/:id', component: UserDashboardComponent},

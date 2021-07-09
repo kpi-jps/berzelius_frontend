@@ -1,1 +1,33 @@
-<p>adm-dashboard works!</p>
+<div id="alert-container" *ngIf="alert">
+    <div class="notification" [class.is-success] = "success == true" [class.is-danger] = "error == true" id="alert">
+      <button class="delete" (click) = "closeAlert()"></button>
+      {{msg}}
+    </div>
+  </div>
+<header class="columns">
+    <div class="column is-1" id="logo">
+        <img src="../assets/logo.svg" alt="logo" width="50" height="50">
+    </div>
+    <div class="column">
+        <div class="content" id="title"><h2>Berzelius</h2></div>
+        <p id="subtitle">Gerenciamento de estoque de regentes químicos</p>
+    </div>
+</header>
+<div class="has-background-info-light tabs">
+    <ul>
+        <li class="" (click)="initListProducts()"> <a>Listar reagentes</a></li>
+        <li class="" (click)="initProductRegister()"> <a>Cadastrar reagentes</a></li>
+        <li class=""> <a>Listar pedidos</a></li>
+        <li class=""> <a>Listar usuários</a></li>
+    </ul>
+</div>
+<main>
+    <div id="user-info" class="content" *ngIf="userInfo">
+        <p> <b>Usuário:</b> {{user.name}} | <b>Status:</b> Administrador</p>
+    </div>
+    <app-product-form *ngIf="productRegister" (onCreateProduct)="onProductRegister($event)"></app-product-form>
+    <app-product-list *ngIf="productsList" (onEditProduct) = "onProductEdit($event)" (onDelProduct) = "onDelProduct($event)"></app-product-list>
+</main>
+<footer class="has-background-info-light">
+    <b>Berzelius</b> - Desenvolvido por João Pedro
+</footer>
