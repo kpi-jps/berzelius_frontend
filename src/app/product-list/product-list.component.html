@@ -65,7 +65,7 @@
             <div id="title" class="content"><h4>Pedindo reagente</h4></div>
             <div class="content">
                 <p> {{productName}} </p>
-                <p>Quantidade em estoque: {{productQuantity}} {{productUnity}}</p>
+                <p>Quantidade em estoque: {{productQuantity | setNum}} {{productUnity}}</p>
             </div> 
                 <form id="form-edit"  [formGroup]="orderForm" (submit)="onSubmitOrder()">
                     <div class="field">
@@ -87,7 +87,7 @@
         <ul>
             <li><b>Reagente: </b> {{product.name}}</li>
             <li><b>Descrição:</b> {{product.description}}</li>
-            <li><b>Quantidade: </b> {{product.quantity}} {{product.unity}}</li>
+            <li><b>Quantidade: </b> {{product.quantity | setNum}} {{product.unity}}</li>
             <li><b>Observações:</b> {{product.obs}}</li>
         </ul>
         <div id="user-control" *ngIf="!activeUser.adm">

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../user';
 import { UserServiceService } from '../user-service.service';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'app-adm-dashboard',
@@ -20,12 +20,22 @@ export class AdmDashboardComponent implements OnInit {
   success : boolean; //indica se mensagem de sucesso
   error : boolean; //indica se mensagem de erro
   msg : string; //mensagem apresentada por alertas
+
+  
   constructor(
     private userService: UserServiceService,
     private route : ActivatedRoute,
+    private routes : Router
 
     ) { }
-
+    onTimeOff(output) {
+      if(output) {
+        this.out();
+      }
+    }
+    out() {
+      this.routes.navigate(["/login/"]);
+    }
     //inicia o processo de registro de produto
     initProductRegister() {
       this.productRegister = true;
@@ -120,7 +130,7 @@ export class AdmDashboardComponent implements OnInit {
       }) 
     }
 
-
+    
   //fecha o "popUp" de alerta
   closeAlert() : void {
     this.alert = false;
@@ -144,6 +154,7 @@ export class AdmDashboardComponent implements OnInit {
   }   
     ngOnInit(): void {
       this.getUser();
+      
     }
   
 

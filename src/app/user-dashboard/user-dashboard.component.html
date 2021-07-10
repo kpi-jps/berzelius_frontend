@@ -18,6 +18,12 @@
         <li (click)="initListProducts()"> <a>Listar reagentes</a></li>
         <li (click)= "initListOrders()"> <a>Listar pedidos</a></li>
     </ul>
+    <div class="has-background-info-light tabs is-left">
+        <ul>
+            <li><a><app-timer (onTimeOff) = "onTimeOff($event)"></app-timer></a></li>
+            <li (click) = "out()"><a>Sair</a></li>
+        </ul>
+    </div> 
 </div>
 <main>
     <div id="user-info" class="content" *ngIf="userInfo">

@@ -18,8 +18,8 @@
             <div class="content">
                 <p> Pedido {{orderId}} </p>
                 <p>Produto: {{productName}}</p>
-                <p>Quantidade em estoque: {{productQuantity}} {{productUnity}}</p>
-                <p>Quantidade solicitada: {{orderQuantity}} {{productUnity}}</p>
+                <p>Quantidade em estoque: {{productQuantity | setNum}} {{productUnity}}</p>
+                <p>Quantidade solicitada: {{orderQuantity | setNum}} {{productUnity}}</p>
             </div> 
                 <button class="button is-small is-info" (click) = "processOrder()">Processar</button>
             </div>    
@@ -35,7 +35,7 @@
             <li><b>Data:</b> {{order.createdAt}}</li>
             <li><b>Produto:</b> {{order.name}}</li>
             <li><b>Descrição:</b> {{order.description}}</li>
-            <li><b>Quantidade: </b> {{order.quantity}} {{order.unity}}</li>
+            <li><b>Quantidade: </b> {{order.quantity | setNum }} {{order.unity}}</li>
             <li><b>Status: </b> {{order.status}}</li>
         </ul>
         <div id="adm-control" *ngIf="activeUser.adm">

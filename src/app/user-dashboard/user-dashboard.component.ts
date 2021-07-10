@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../user';
 import { UserServiceService } from '../user-service.service';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'app-user-dashboard',
@@ -21,6 +21,7 @@ export class UserDashboardComponent implements OnInit {
   constructor(
     private userService: UserServiceService,
     private route : ActivatedRoute,
+    private routes : Router
     ) { }
   
   getUser() {
@@ -31,7 +32,14 @@ export class UserDashboardComponent implements OnInit {
       this.userInfo = true;
     }) 
   }
-
+  onTimeOff(output) {
+    if(output) {
+      this.out();
+    }
+  }
+  out() {
+    this.routes.navigate(["/login/"]);
+  }
   //inicia o processo de listagem de pedidos
   initListOrders() {
     this.productsList = false;

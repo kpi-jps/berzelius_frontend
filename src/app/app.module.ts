@@ -14,6 +14,8 @@ import { UserListComponent } from './user-list/user-list.component';
 import { OrderListComponent } from './order-list/order-list.component';
 import { UserStatusPipe } from './user-status.pipe';
 import { SetTimerPipe } from './set-timer.pipe';
+import { SetNumPipe } from './set-num.pipe';
+import { TimerComponent } from './timer/timer.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { SetTimerPipe } from './set-timer.pipe';
     UserListComponent,
     OrderListComponent,
     UserStatusPipe,
-    SetTimerPipe
+    SetTimerPipe,
+    SetNumPipe,
+    TimerComponent
   ],
   imports: [
     BrowserModule,
