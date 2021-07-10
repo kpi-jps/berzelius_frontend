@@ -16,6 +16,7 @@ import { UserStatusPipe } from './user-status.pipe';
 import { SetTimerPipe } from './set-timer.pipe';
 import { SetNumPipe } from './set-num.pipe';
 import { TimerComponent } from './timer/timer.component';
+import { SetDatePipe } from './set-date.pipe';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { TimerComponent } from './timer/timer.component';
     UserStatusPipe,
     SetTimerPipe,
     SetNumPipe,
-    TimerComponent
+    TimerComponent,
+    SetDatePipe
   ],
   imports: [
     BrowserModule,

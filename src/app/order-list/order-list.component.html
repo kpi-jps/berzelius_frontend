@@ -32,7 +32,7 @@
     <div class="has-background-info-light orders" *ngFor="let order of orders">
         <ul>
             <li><b>Pedido: </b> {{order._id}}</li>
-            <li><b>Data:</b> {{order.createdAt}}</li>
+            <li><b>Data:</b> {{order.createdAt | setDate}}</li>
             <li><b>Produto:</b> {{order.name}}</li>
             <li><b>Descrição:</b> {{order.description}}</li>
             <li><b>Quantidade: </b> {{order.quantity | setNum }} {{order.unity}}</li>
