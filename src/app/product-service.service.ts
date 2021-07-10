@@ -9,7 +9,7 @@ import { Product } from './product';
 })
 export class ProductServiceService {
   
-  baseURL = 'http://localhost:8080/api/produtos/';
+  baseURL = 'https://sc3012964-berzelius.glitch.me/api/produtos/';
 
   constructor(private http : HttpClient) { }
   //registra um novo contato no banco de dados

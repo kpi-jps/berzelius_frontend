@@ -8,7 +8,7 @@ import { User } from './user';
 })
 export class UserServiceService {
 
-  baseURL = 'http://localhost:8080/api/usuarios/';
+  baseURL = 'https://sc3012964-berzelius.glitch.me/api/usuarios/';
 
   constructor(private http : HttpClient) { }
   //registra um novo contato no banco de dados

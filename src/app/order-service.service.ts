@@ -9,7 +9,7 @@ import { Order } from './order';
 })
 export class OrderServiceService {
 
-  baseURL = 'http://localhost:8080/api/pedidos/';
+  baseURL = 'https://sc3012964-berzelius.glitch.me/api/pedidos/';
 
   constructor(private http : HttpClient) { }
   //registra um novo contato no banco de dados
